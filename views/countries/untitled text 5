@@ -1,0 +1,5 @@
+$(document).ready(function(){
+	$("Up").click(function(){
+		$("Up").hide();
+	});
+});
