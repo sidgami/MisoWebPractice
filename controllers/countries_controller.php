@@ -3,46 +3,43 @@ class CountriesController {
 	public $models = array('Country');
 	
 	public function index() {
-		// $_POST is a global array containing the variables from a form submitted
-		// if you have a field celled "foo" and you type in "bar" as the value and submit,
-		// then $_POST['foo'] will be equal to "bar"
-		if(isset($_POST['add'])){
-			Country::addNewRecord();
-		}
-		if(isset($_POST['delete'])){
-			Country::deleteRecord();
-		}else if(isset($_POST['up'])){
-			Country::moveUp();	
-		}else if(isset($_POST['down'])){
-			Country::moveDown();
+		if(isset($_POST['add'])) {
+			$country = new Country();
+			$country->set_values($_POST);
+			$country->save();
+		}else if(isset($_POST['up'])) {
+			$country = Country::find($_POST['up']);
+			$country->up();
+		}else if(isset($_POST['down'])) {
+			$country = Country::find($_POST['down']);
+			$country->down();
 		}
 		
-		$countries = Country::find(array("order"=>"order"));
+		$countries = Country::find(array('order' => 'order'));
 		Paraglide::render_view('countries/index', array(
 			'countries' => $countries,
 		));
 	}
 
-	public function editRecord($id=null) {
-		if(!empty($_POST)){
-			$country = Country::find($_POST['id']);
-			
-			if(!empty($country)){
-				$country->set_values($_POST);
-				if($country->save()){
-					Paraglide::redirect('countries');
-				}
-			}
-		}
-		
+	public function edit($id = null) {
 		$country = Country::find($id);
 		
-		if(!empty($country)){
-			Paraglide::render_view('countries/edit',array(
-							'country' => $country
-							));
-			return;
+		if (empty($country)) {
+			Paraglide::redirect('countries');
 		}
+		if(!empty($_POST)) {
+			if (!empty($_POST['delete'])) {
+				$country->delete();
+				Paraglide::redirect('countries');
+				return;
+			}
+			$country->set_values($_POST);
+			$country->save();
+			Paraglide::redirect('countries');
+		}
+		
+		Paraglide::render_view('countries/edit',array(
+			'country' => $country
+		));
 	}
-
 }
