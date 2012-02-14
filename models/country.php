@@ -8,41 +8,61 @@ class Country extends Paragon{
 	public $population;
 	public $capital;
 	
-	public function up() {
+	public function moveUp() {
 		$countryAbove = Country::find_one(array(
 			'conditions' => array(
 				'order' => self::condition('lt', $this->order),
 			),
-			'order' => '-order'
+			'order' => '-order, -id',
 		));
 		
-		if(!empty($countryAbove)) {
+		if(empty($countryAbove)) {
+			return false;
+		}else{
 			$tempOrder = $countryAbove->order;
 			$countryAbove->order = $this->order;
 			$this->order = $tempOrder;
-			$this->save();
-			$countryAbove->save();
-		}else {
-			Paraglide::redirect('countries');
+			
+			if(!$this->save()){
+				User::error('Cannot save the country instance');
+				return false;
+			}
+			
+			if(!$countryAbove->save()){
+				User::error('Cannot save the country instance');
+				return false;
+			}
+
+			return true;
 		}
 	}
 	
-	public function down() {
+	public function moveDown() {
 		$countryBelow = Country::find_one(array(
 			'conditions' => array(
 				'order' => self::condition('gt', $this->order),
 			),
-			'order' => '+order'
+			'order' => 'order', 'id',
 		));
 			
-		if(!empty($countryBelow)) {
+		if(empty($countryBelow)) {
+			return false;
+		}else{
 			$tempOrder = $countryBelow->order;
 			$countryBelow->order = $this->order;
 			$this->order = $tempOrder;
-			$this->save();
-			$countryBelow->save();
-		}else {
-			Paraglide::redirect('countries');
+			
+			if(!$this->save()){
+				User::error('Cannot save the country instance');
+				return false;
+			}
+			
+			if(!$countryBelow->save()){
+				User::error('Cannot save the country instance');
+				return false;
+			}
+			
+			return true;
 		}
 	}
 }

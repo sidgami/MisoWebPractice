@@ -1,53 +1,51 @@
 $(function() {
-	return true;
-	var id;
 	$('#new-values').hide();
+	//return true;
+	var id;
 	
-	$('input.down').parents('form').submit(function() {
+	$('form.down').submit(function() {
 		var rowElement = $(this).parents('tr:first');
 		var nextRowElement = rowElement.next();
 		
 		nextRowElement.after(rowElement);
 		return false;
 	});
-	$('input.up').parents('form').submit(function() {
+	$('form.up').submit(function() {
 		var row = $(this).parents('tr:first');
-		var allPrevRowElement = row.prevAll('tr');
+		var numPrevRows = row.prevAll('tr').size();
 		var prevRowElement = row.prev('tr');
 		
-		if(allPrevRowElement.length > 1) {
+		if(numPrevRows > 1) {
 			prevRowElement.before(row);
 		}
 		return false;
 	});
-	$('input.delete').parents('form').submit(function() {
+	$('form.delete').submit(function() {
 		var rowElement = $(this).parents('tr:first');
 		
 		rowElement.remove();
 		return false;
 	});
-	$('a').click(function(e) {
+	$('a.edit_countries').click(function(e) {
 		e.preventDefault();
+		
 		var rowElement = $(this).parents('tr:first');
 		var country = $(rowElement).children('.name');
 		var capital = $(rowElement).children('.capital');
 		var population = $(rowElement).children('.population');
 		
-		$('#new-country').prop('value',country.html());
-		$('#new-capital').prop('value',capital.html());
-		$('#new-population').prop('value',population.html());
-		
+		$('#new-country').prop('value', country.html());
+		$('#new-capital').prop('value', capital.html());
+		$('#new-population').prop('value', population.html());
 		$('#new-values').show('slow');
 		id=rowElement.prop('id');
 		return false;
 	});
-	$('input.done').parents('form').submit(function() {
+	$('form.new_values').submit(function() {
 		var country = $('#new-country').val();
 		var capital = $('#new-capital').val();
 		var population = $('#new-population').val();
-
-		id='#'+id;
-		var rowElement = $(id);
+		var rowElement = $('#'+id);
 		
 		rowElement.children('.name').html(country);
 		rowElement.children('.capital').html(capital);
@@ -55,36 +53,37 @@ $(function() {
 		$('#new-values').hide('slow');
 		return false;
 	});
-	$('input.submit').parents('form').submit(function() {
+	$('form.add_record').submit(function() {
 		var country = $('#add-country').val();
 		var capital = $('#add-capital').val();
 		var population = $('#add-population').val();
 		var order = $('#add-order').val();
-		var randomNum = Math.floor(Math.random())%100;
+		
+		var row = $('<tr></tr>');
+		$('<td></td>').text(country).appendTo(row);
+		$('<td></td>').text(capital).appendTo(row);
+		$('<td></td>').text(population).appendTo(row);
+		$('<td></td>').text(order).appendTo(row);
+		
+		var tableData = $('<td></td>');
+		
+		var input = $('<input></input>');
+		input.prop({'type':'button','value':'Up'});
+		input.appendTo(tableData);
+		
+		var input1 = $('<input></input>');
+		input1.prop({'type':'button','value':'Down'});
+		input1.appendTo(tableData);
+		
+		var link = $('<a>Edit</a>');
+		link.appendTo(tableData);
 
-		var rowElement = 
-		'<tr>'+
-			'<td>'+country+'</td>'+
-			'<td>'+capital+'</td>'+
-			'<td>'+population+'</td>'+
-			'<td>'+order+'</td>'+
-			'<td>'+
-			'<form method="POST">'+
-				'<input type="submit" value="Up" class="up" id="'+randomNum+'"/>'+
-				'<input type="hidden" name="up" value="'+randomNum+'">'+
-			'</form>'+
-			'<form method="POST">'+
-				'<input type="submit" value="Down" class="down" id="'+randomNum+'"/>'+
-				'<input type="hidden" name="down" value="'+randomNum+'">'+
-			'</form>'+
-			'<a id="editlink" href="/countries/edit/'+randomNum+'">Edit</a>'+
-			'<form method="POST">'+
-				'<input type="submit" value="Delete" class="delete" id="'+randomNum+'"/>'
-				'<input type="hidden" name="delete" value="'+randomNum+'">'
-			'</form>'+
-			'</td>'+
-		'</tr>';
-		$('table#countries').append(rowElement);
+		var input3 = $('<input /></input>');
+		input3.prop({'type':'button','value':'Delete'});
+		input3.appendTo(tableData);
+		
+		tableData.appendTo(row);
+		$('table#countries').append(row);
 		return false;
 	});
 });
