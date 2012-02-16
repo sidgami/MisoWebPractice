@@ -1,5 +1,6 @@
 <?php
 class CountriesController {
+	public $helpers = array('Form');
 	public $models = array('Country');
 	
 	public function index() {
@@ -8,11 +9,9 @@ class CountriesController {
 			$country = new Country();
 			$country->set_values($_POST);
 			
-			if (!$country->save()) {
-				User::error('Cannot save the country instance');
+			if ($country->save()) {
+				Paraglide::redirect('countries');
 			}
-			
-			Paraglide::redirect('countries');
 		}
 		
 		if (isset($_POST['up'])) {
@@ -61,11 +60,9 @@ class CountriesController {
 			
 			$country->set_values($_POST);
 			
-			if (!$country->save()) {
-				User::error('Cannot save the country instance');
+			if ($country->save()) {
+				Paraglide::redirect('countries');
 			}
-			
-			Paraglide::redirect('countries');
 		}
 		
 		Paraglide::render_view('countries/edit',array(

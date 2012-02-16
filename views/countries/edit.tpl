@@ -1,3 +1,4 @@
+<?= Form::errors_to_labels_string($country->errors) ?>
 <div id="add-values" class="add_values">
 	<h4 class="add_header"> Edit Page for <?= htmlspecialchars($country->name) ?></h4>
 	<form method="POST">

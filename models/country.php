@@ -2,6 +2,13 @@
 class Country extends Paragon{
 	protected static $_table = 'countries';
 	
+	public static $validations = array(
+		'order' => array('required' => true),
+		'name' => array('required' => true),
+		'population' => array(),
+		'capital' => array(),	
+	);
+	
 	public $id;
 	public $order;
 	public $name;
@@ -24,12 +31,10 @@ class Country extends Paragon{
 			$this->order = $tempOrder;
 			
 			if(!$this->save()){
-				User::error('Cannot save the country instance');
 				return false;
 			}
 			
 			if(!$countryAbove->save()){
-				User::error('Cannot save the country instance');
 				return false;
 			}
 
@@ -53,12 +58,10 @@ class Country extends Paragon{
 			$this->order = $tempOrder;
 			
 			if (!$this->save()){
-				User::error('Cannot save the country instance');
 				return false;
 			}
 			
 			if (!$countryBelow->save()){
-				User::error('Cannot save the country instance');
 				return false;
 			}
 			

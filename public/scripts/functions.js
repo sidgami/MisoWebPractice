@@ -1,6 +1,6 @@
 $(function() {
 	$('#new-values').hide();
-	//return true;
+	return true;
 	var id;
 	
 	$('form.down').submit(function() {
@@ -71,6 +71,7 @@ $(function() {
 		input.prop({'type':'button','value':'Up'});
 		input.appendTo(tableData);
 		$('<br />').appendTo(tableData);
+		
 		
 		var input1 = $('<input></input>');
 		input1.prop({'type':'button','value':'Down'});
