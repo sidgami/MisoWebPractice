@@ -70,14 +70,17 @@ $(function() {
 		var input = $('<input></input>');
 		input.prop({'type':'button','value':'Up'});
 		input.appendTo(tableData);
+		$('<br />').appendTo(tableData);
 		
 		var input1 = $('<input></input>');
 		input1.prop({'type':'button','value':'Down'});
 		input1.appendTo(tableData);
+		$('<br />').appendTo(tableData);
 		
 		var link = $('<a>Edit</a>');
 		link.appendTo(tableData);
-
+		$('<br />').appendTo(tableData);
+		
 		var input3 = $('<input /></input>');
 		input3.prop({'type':'button','value':'Delete'});
 		input3.appendTo(tableData);

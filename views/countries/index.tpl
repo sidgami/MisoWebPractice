@@ -32,7 +32,7 @@
 
 <form method="POST" class="new_values">
 	<div id="new-values" class="add_values">
-		<p class="add_header">Enter the new values (Only For Jquery):</p>
+		<h4 class="add_header">Enter the new values (Only For Jquery):</h4>
 		<input type="text" name="new-country" id="new-country" value="">
 		<input type="text" name="new-capital" id="new-capital" value="">
 		<input type="text" name="new-population" id="new-population" value="">

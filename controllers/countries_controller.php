@@ -3,28 +3,33 @@ class CountriesController {
 	public $models = array('Country');
 	
 	public function index() {
-		if(isset($_POST['add'])) {
+		//checking for the POST Values
+		if (isset($_POST['add'])) {
 			$country = new Country();
 			$country->set_values($_POST);
 			
-			if(!$country->save()){
+			if (!$country->save()) {
 				User::error('Cannot save the country instance');
 			}
 			
 			Paraglide::redirect('countries');
-		}else if(isset($_POST['up'])) {
+		}
+		
+		if (isset($_POST['up'])) {
 			$country = Country::find($_POST['up']);
 			
-			if(empty($country)){
+			if (empty($country)) {
 				Paraglide::redirect('countries');
 			}
 			
 			$country->moveUp();
 			Paraglide::redirect('countries');
-		}else if(isset($_POST['down'])) {
+		}
+		
+		if (isset($_POST['down'])) {
 			$country = Country::find($_POST['down']);
 			
-			if(empty($country)){
+			if (empty($country)) {
 				Paraglide::redirect('countries');
 			}
 			
@@ -46,15 +51,20 @@ class CountriesController {
 		if (empty($country)) {
 			Paraglide::redirect('countries');
 		}
-		if(!empty($_POST)) {
+		
+		if (!empty($_POST)) {
+			//checking for the POST value
 			if (!empty($_POST['delete'])) {
 				$country->delete();
 				Paraglide::redirect('countries');
 			}
+			
 			$country->set_values($_POST);
-			if(!$country->save()){
+			
+			if (!$country->save()) {
 				User::error('Cannot save the country instance');
 			}
+			
 			Paraglide::redirect('countries');
 		}
 		

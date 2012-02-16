@@ -1,6 +1,6 @@
 <?php
 class Country extends Paragon{
-	protected static $_table = 'country';
+	protected static $_table = 'countries';
 	
 	public $id;
 	public $order;
@@ -16,7 +16,7 @@ class Country extends Paragon{
 			'order' => '-order, -id',
 		));
 		
-		if(empty($countryAbove)) {
+		if (empty($countryAbove)) {
 			return false;
 		}else{
 			$tempOrder = $countryAbove->order;
@@ -45,19 +45,19 @@ class Country extends Paragon{
 			'order' => 'order', 'id',
 		));
 			
-		if(empty($countryBelow)) {
+		if (empty($countryBelow)) {
 			return false;
 		}else{
 			$tempOrder = $countryBelow->order;
 			$countryBelow->order = $this->order;
 			$this->order = $tempOrder;
 			
-			if(!$this->save()){
+			if (!$this->save()){
 				User::error('Cannot save the country instance');
 				return false;
 			}
 			
-			if(!$countryBelow->save()){
+			if (!$countryBelow->save()){
 				User::error('Cannot save the country instance');
 				return false;
 			}
